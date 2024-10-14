@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-file_path = (r"C:\Users\CHRISTOSMAR\OneDrive\Υπολογιστής\Data\employees1.csv")
+file_path = (r"C:\Users\Data\employees1.csv")
 df= pd.read_csv(file_path)
 
 dept_grouped = df.groupby('Department').agg({'Salary': 'mean', 'EmpSatisfaction': 'mean'}).reset_index()

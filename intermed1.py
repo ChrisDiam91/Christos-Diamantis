@@ -1,0 +1,36 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+file_path = (r"C:\Users\CHRISTOSMAR\OneDrive\Υπολογιστής\Data\employees1.csv")
+df= pd.read_csv(file_path)
+
+dept_grouped = df.groupby('Department').agg({'Salary': 'mean', 'EmpSatisfaction': 'mean'}).reset_index()
+fig, ax1 = plt.subplots(figsize=(10, 6))
+ax1.bar(dept_grouped['Department'], dept_grouped['Salary'], color='royalblue', label='Average Salary')
+ax1.set_xlabel('Department')
+ax1.set_ylabel('Average Salary', color='blue')
+ax1.tick_params(axis='y', labelcolor='blue')
+ax1.legend()
+ax1.set_title('Average Salary and Employee Satisfation by Department')
+ax2= ax1.twinx()
+ax2.plot(dept_grouped['Department'], dept_grouped['EmpSatisfaction'], color='red', marker= 'o', label='EmpSatisfaction')
+ax2.set_ylabel('Employee Satisfaction', color ='red')
+ax2.tick_params(axis='y', labelcolor='red')
+ax2.legend()
+plt.show()
+perf_grouped = df.groupby('PerformanceScore')['Absences'].mean().reset_index()
+plt.figure(figsize=(10, 6))
+sns.barplot(x="PerformanceScore", y='Absences', data=perf_grouped, hue='PerformanceScore',palette='viridis', legend=False)
+plt.xlabel('Performance Score')
+plt.ylabel('Average Absences')
+plt.title('Average Absences by Performance Score')
+plt.show()
+dept_distribution = df['Department'].value_counts()
+salary_stats = df.groupby('Department')['Salary'].describe()
+print(salary_stats)
+plt.figure(figsize=(10, 6))
+plt.pie(dept_distribution, labels=dept_distribution.index, autopct='%1.1f%%', startangle=140, colors=plt.cm.viridis(np.linspace(0, 1, len(dept_distribution))))
+plt.title('Employee Distribution by Department')
+plt.show()
